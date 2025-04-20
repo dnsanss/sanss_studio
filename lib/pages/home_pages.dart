@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,22 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchUserName();
     //fetchMovies();
-  }
-
-  Future<void> fetchUserName() async {
-    final userId = Supabase.instance.client.auth.currentUser!.id;
-    final data =
-        await Supabase.instance.client
-            .from('users')
-            .select('nama')
-            .eq('id', userId)
-            .single();
-
-    setState(() {
-      userName = data['nama'];
-    });
   }
 
   void logout(BuildContext context) async {
@@ -43,7 +29,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(userName == null ? 'Loading...' : 'Halo, $userName'),
+        title: Text(
+          'Sanss Studio',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),

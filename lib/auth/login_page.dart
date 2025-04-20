@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             ElevatedButton(onPressed: loginUser, child: const Text('Login')),
             TextButton(
               onPressed: () {

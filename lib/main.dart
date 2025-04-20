@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Booking Film',
       theme: ThemeData(useMaterial3: true),
       home: const LoginPage(), // halaman pertama saat app dibuka
