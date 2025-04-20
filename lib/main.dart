@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sanss_studio/auth/login_page.dart';
-//import 'package:sanss_studio/auth/register_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'pages/admin_page.dart';
 
 void main() async {
   await Supabase.initialize(
@@ -23,6 +23,11 @@ class MyApp extends StatelessWidget {
       title: 'Booking Film',
       theme: ThemeData(useMaterial3: true),
       home: const LoginPage(), // halaman pertama saat app dibuka
+      routes: {
+        '/login': (_) => const LoginPage(),
+        '/admin': (_) => const AdminPage(),
+        // tambahkan juga untuk user: '/home': (_) => const HomePage(),
+      },
     );
   }
 }

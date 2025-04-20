@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanss_studio/pages/admin_page.dart';
 import 'package:sanss_studio/pages/home_pages.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'register_page.dart';
@@ -15,31 +16,40 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   void loginUser() async {
-    final email = emailController.text;
-    final password = passwordController.text;
-
     try {
       final response = await Supabase.instance.client.auth.signInWithPassword(
-        email: email,
-        password: password,
+        email: emailController.text,
+        password: passwordController.text,
       );
 
-      if (response.user != null) {
-        // Login berhasil
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomePage()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Email atau password salah')),
-        );
+      final user = response.user;
+      if (user != null) {
+        // Ambil data user dari tabel user
+        final userData =
+            await Supabase.instance.client
+                .from('users')
+                .select()
+                .eq('id', user.id)
+                .single();
+
+        final role = userData['role'];
+
+        if (role == 'admin') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const AdminPage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const HomePage()),
+          );
+        }
       }
     } catch (e) {
-      // Tampilkan error secara jelas
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Login error: $e')));
+      ).showSnackBar(SnackBar(content: Text('Login gagal: $e')));
     }
   }
 
