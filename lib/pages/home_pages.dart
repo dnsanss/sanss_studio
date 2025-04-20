@@ -34,6 +34,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void logout(BuildContext context) async {
+    await Supabase.instance.client.auth.signOut();
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +47,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await Supabase.instance.client.auth.signOut();
-              Navigator.pop(context);
-            },
+            onPressed: () => logout(context),
           ),
         ],
       ),
