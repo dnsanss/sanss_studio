@@ -8,14 +8,10 @@ class AdminPage extends StatelessWidget {
     final user = Supabase.instance.client.auth.currentUser;
 
     if (user != null) {
-      final response =
-          await Supabase.instance.client
-              .from('users')
-              .select('nama')
-              .eq('id', user.id)
-              .single();
-
-      return response['nama'] as String?;
+      await Supabase.instance.client
+          .from('films')
+          .select()
+          .order('judul', ascending: true);
     }
     return null;
   }
@@ -44,21 +40,11 @@ class AdminPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final adminName = snapshot.data ?? 'Admin';
-
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Selamat datang, $adminName 👋',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 30),
                 const Text('Menu Admin:', style: TextStyle(fontSize: 16)),
                 const SizedBox(height: 10),
                 ElevatedButton(

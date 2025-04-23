@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sanss_studio/auth/login_page.dart';
+import 'package:sanss_studio/pages/home_pages.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'pages/admin_page.dart';
 
@@ -22,12 +24,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Booking Film',
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+        useMaterial3: true,
+        textTheme: GoogleFonts.poppinsTextTheme(),
+      ),
       home: const LoginPage(), // halaman pertama saat app dibuka
       routes: {
         '/login': (_) => const LoginPage(),
         '/admin': (_) => const AdminPage(),
-        // tambahkan juga untuk user: '/home': (_) => const HomePage(),
+        '/user': (_) => const HomePage(),
       },
     );
   }
