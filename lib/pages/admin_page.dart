@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'add_film_page.dart';
 
-class AdminPage extends StatelessWidget {
+class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
+
+  @override
+  _AdminPageState createState() => _AdminPageState();
+}
+
+class _AdminPageState extends State<AdminPage> {
+  List<Map<String, dynamic>> filmList = [];
 
   Future<String?> fetchAdminName() async {
     final user = Supabase.instance.client.auth.currentUser;
@@ -12,6 +20,10 @@ class AdminPage extends StatelessWidget {
           .from('films')
           .select()
           .order('judul', ascending: true);
+
+      setState(() {
+        filmList = filmList;
+      });
     }
     return null;
   }
@@ -45,24 +57,60 @@ class AdminPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Menu Admin:', style: TextStyle(fontSize: 16)),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    // Tambah film atau fitur lainnya di sini
-                  },
-                  child: const Text('Kelola Daftar Film'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Daftar Film:', style: TextStyle(fontSize: 16)),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Fitur selanjutnya
-                  },
-                  child: const Text('Lihat Data Pemesanan'),
+                const SizedBox(height: 10),
+                Expanded(
+                  child:
+                      filmList.isEmpty
+                          ? const Center(child: Text('Belum ada film.'))
+                          : ListView.builder(
+                            itemCount: filmList.length,
+                            itemBuilder: (context, index) {
+                              final film = filmList[index];
+                              return Card(
+                                child: ListTile(
+                                  leading:
+                                      film['image_url'] != null
+                                          ? Image.network(
+                                            film['image_url'],
+                                            width: 50,
+                                            fit: BoxFit.cover,
+                                          )
+                                          : const Icon(Icons.movie),
+                                  title: Text(film['title']),
+                                  subtitle: Text(film['genre'] ?? ''),
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {
+                                      // fitur hapus nanti
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                 ),
               ],
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddFilmPage()),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
