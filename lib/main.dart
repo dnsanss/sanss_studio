@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sanss_studio/auth/login_page.dart';
 import 'package:sanss_studio/pages/home_pages.dart';
+import 'package:sanss_studio/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'pages/admin_page.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 void main() async {
   await Supabase.initialize(
@@ -16,18 +18,30 @@ void main() async {
 
 final supabase = Supabase.instance.client;
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Booking Film',
-      theme: ThemeData(
-        useMaterial3: true,
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.indigo,
         textTheme: GoogleFonts.poppinsTextTheme(),
+        primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       ),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.indigo,
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        primaryTextTheme: GoogleFonts.poppinsTextTheme(),
+      ),
+      themeMode: ThemeMode.dark,
       home: const LoginPage(), // halaman pertama saat app dibuka
       routes: {
         '/login': (_) => const LoginPage(),
