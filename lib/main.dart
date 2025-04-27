@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sanss_studio/auth/login_page.dart';
 import 'package:sanss_studio/pages/home_pages.dart';
-import 'package:sanss_studio/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'pages/admin_page.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -32,12 +31,12 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Booking Film',
       theme: FlexThemeData.light(
-        scheme: FlexScheme.indigo,
+        scheme: FlexScheme.shadBlue,
         textTheme: GoogleFonts.poppinsTextTheme(),
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       ),
       darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.indigo,
+        scheme: FlexScheme.shadBlue,
         textTheme: GoogleFonts.poppinsTextTheme(),
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       ),
