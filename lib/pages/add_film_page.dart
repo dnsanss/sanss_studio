@@ -21,6 +21,7 @@ class _AddFilmPageState extends State<AddFilmPage> {
     final duration = durationController.text.trim();
 
     if (title.isEmpty || desc.isEmpty || image.isEmpty || duration.isEmpty) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Semua field harus diisi.')));
@@ -35,11 +36,13 @@ class _AddFilmPageState extends State<AddFilmPage> {
         'duration': duration,
       });
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Film berhasil ditambahkan!')),
       );
       Navigator.pop(context); // kembali ke halaman sebelumnya
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Gagal menambahkan film: $e')));

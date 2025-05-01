@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
 
         final role = userData['role'];
 
+        if (!mounted) return; // <- Tambahkan ini sebelum navigasi
+
         if (role == 'admin') {
           Navigator.pushReplacement(
             context,
@@ -47,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     } catch (e) {
+      if (!mounted) return; // <- Tambahkan ini sebelum showSnackBar
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Login gagal: $e')));

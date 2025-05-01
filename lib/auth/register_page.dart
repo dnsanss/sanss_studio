@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final password = passwordController.text.trim();
 
     if (name.isEmpty || phone.isEmpty || email.isEmpty || password.length < 6) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Isi semua data dan password min. 6 karakter'),
@@ -51,16 +52,19 @@ class _RegisterPageState extends State<RegisterPage> {
           'nomor_hp': phone,
         });
 
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Registrasi berhasil! Silakan login.')),
         );
         Navigator.pop(context);
       }
     } on AuthException catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Gagal daftar: ${e.message}')));
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e')));

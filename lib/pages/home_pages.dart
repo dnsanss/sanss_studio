@@ -10,17 +10,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<dynamic> movies = [];
-
   String? userName;
 
   @override
   void initState() {
     super.initState();
-    //fetchMovies();
+    fetchMovies(); // Aktifkan kembali
   }
 
-  void logout(BuildContext context) async {
+  Future<void> fetchMovies() async {
+    try {
+      final response = await Supabase.instance.client.from('movies').select();
+      if (!mounted) return;
+      setState(() {
+        movies = response;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal mengambil data film: $e')));
+    }
+  }
+
+  Future<void> logout() async {
     await Supabase.instance.client.auth.signOut();
+    if (!mounted) return;
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
@@ -28,18 +43,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Sanss Studio',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => logout(context),
+            onPressed: logout, // Tidak perlu pakai context di parameter
           ),
         ],
       ),
-
       body:
           movies.isEmpty
               ? const Center(child: CircularProgressIndicator())
@@ -62,9 +76,7 @@ class _HomePageState extends State<HomePage> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      onTap: () {
-                        // TODO: pindah ke detail film
-                      },
+                      onTap: () {},
                     ),
                   );
                 },
