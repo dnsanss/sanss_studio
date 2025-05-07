@@ -65,12 +65,13 @@ class _AddFilmPageState extends State<AddFilmPage> {
 
       // Simpan data film ke tabel
       await Supabase.instance.client.from('movies').insert({
-        'tittle': title,
+        'title': title,
         'description': desc,
         'image_url': imageUrl,
         'duration': duration,
       });
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Film berhasil ditambahkan!')),
       );
