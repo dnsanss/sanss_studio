@@ -12,10 +12,11 @@ class AdminPage extends StatefulWidget {
 class AdminPageState extends State<AdminPage> {
   List<Map<String, dynamic>> filmList = [];
 
+  // Fungsi untuk mengambil data film dari Supabase
   Future<void> fetchFilms() async {
     try {
       final response = await Supabase.instance.client
-          .from('films')
+          .from('movies')
           .select()
           .order('judul', ascending: true);
 
@@ -79,7 +80,6 @@ class AdminPageState extends State<AdminPage> {
                                       )
                                       : const Icon(Icons.movie),
                               title: Text(film['title']),
-                              subtitle: Text(film['genre'] ?? ''),
                               trailing: IconButton(
                                 icon: const Icon(
                                   Icons.delete,
