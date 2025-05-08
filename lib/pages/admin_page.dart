@@ -96,13 +96,14 @@ class _AdminPageState extends State<AdminPage> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () {
-                              Navigator.push(
+                            onPressed: () async {
+                              await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => EditFilmPage(film: film),
                                 ),
                               );
+                              fetchFilms(); // Refresh data setelah kembali
                             },
                           ),
                         ],
@@ -112,11 +113,12 @@ class _AdminPageState extends State<AdminPage> {
                 },
               ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const AddFilmPage()),
           );
+          fetchFilms(); // Refresh data setelah kembali
         },
         child: const Icon(Icons.add),
       ),
