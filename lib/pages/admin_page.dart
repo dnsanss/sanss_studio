@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_film_page.dart';
+import 'edit_film_page.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -23,7 +24,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final response = await Supabase.instance.client
           .from('movies')
-          .select('tittle, description, image_url, duration')
+          .select('id, tittle, description, image_url, duration')
           .order('tittle', ascending: true);
 
       if (!mounted) return;
@@ -88,6 +89,22 @@ class _AdminPageState extends State<AdminPage> {
                           Text(film['description'] ?? ''),
                           const SizedBox(height: 4),
                           Text('Durasi: ${film['duration']} menit'),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => EditFilmPage(film: film),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

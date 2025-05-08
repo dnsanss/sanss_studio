@@ -65,7 +65,7 @@ class _AddFilmPageState extends State<AddFilmPage> {
 
       // Simpan data film ke tabel
       await Supabase.instance.client.from('movies').insert({
-        'title': title,
+        'tittle': title,
         'description': desc,
         'image_url': imageUrl,
         'duration': duration,
