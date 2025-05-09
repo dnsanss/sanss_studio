@@ -46,6 +46,48 @@ class _AdminPageState extends State<AdminPage> {
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
+  void _confirmDelete(String id) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Konfirmasi'),
+            content: const Text('Yakin ingin menghapus film ini?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Batal'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _deleteFilm(id);
+                },
+                child: const Text('Hapus', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+    );
+  }
+
+  Future<void> _deleteFilm(String id) async {
+    try {
+      await Supabase.instance.client.from('movies').delete().eq('id', id);
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Film berhasil dihapus.')));
+
+      fetchFilms();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal menghapus film: $e')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,8 +145,12 @@ class _AdminPageState extends State<AdminPage> {
                                   builder: (_) => EditFilmPage(film: film),
                                 ),
                               );
-                              fetchFilms(); // Refresh data setelah kembali
+                              fetchFilms();
                             },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => _confirmDelete(film['id']),
                           ),
                         ],
                       ),
@@ -118,7 +164,7 @@ class _AdminPageState extends State<AdminPage> {
             context,
             MaterialPageRoute(builder: (_) => const AddFilmPage()),
           );
-          fetchFilms(); // Refresh data setelah kembali
+          fetchFilms();
         },
         child: const Icon(Icons.add),
       ),
