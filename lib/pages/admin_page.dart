@@ -124,11 +124,21 @@ class _AdminPageState extends State<AdminPage> {
                                 fit: BoxFit.cover,
                               )
                               : const Icon(Icons.image_not_supported),
-                      title: Text(film['tittle']),
+                      title: Text(
+                        film['tittle'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(film['description'] ?? ''),
+                          Text(
+                            film['description'] ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const SizedBox(height: 4),
                           Text('Durasi: ${film['duration']} menit'),
                         ],
