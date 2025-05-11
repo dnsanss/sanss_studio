@@ -14,6 +14,8 @@ class _AddFilmPageState extends State<AddFilmPage> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final durationController = TextEditingController();
+  final dayController = TextEditingController();
+  final timeController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
@@ -37,6 +39,8 @@ class _AddFilmPageState extends State<AddFilmPage> {
     final title = titleController.text.trim();
     final desc = descriptionController.text.trim();
     final duration = durationController.text.trim();
+    final day = dayController.text.trim();
+    final time = timeController.text.trim();
 
     if (title.isEmpty ||
         desc.isEmpty ||
@@ -69,6 +73,8 @@ class _AddFilmPageState extends State<AddFilmPage> {
         'description': desc,
         'image_url': imageUrl,
         'duration': duration,
+        'day': day,
+        'time': time,
       });
 
       if (!mounted) return;
@@ -122,6 +128,14 @@ class _AddFilmPageState extends State<AddFilmPage> {
                 controller: durationController,
                 decoration: const InputDecoration(labelText: 'Durasi (menit)'),
                 keyboardType: TextInputType.number,
+              ),
+              TextFormField(
+                controller: dayController,
+                decoration: const InputDecoration(labelText: 'Jadwal Hari'),
+              ),
+              TextFormField(
+                controller: timeController,
+                decoration: const InputDecoration(labelText: 'Jam Tayang'),
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(

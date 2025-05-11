@@ -24,7 +24,7 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final response = await Supabase.instance.client
           .from('movies')
-          .select('id, tittle, description, image_url, duration')
+          .select('id, tittle, description, image_url, duration, day, time')
           .order('tittle', ascending: true);
 
       if (!mounted) return;
@@ -114,8 +114,12 @@ class _AdminPageState extends State<AdminPage> {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    child: ListTile(
-                      leading:
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Poster
                           film['image_url'] != null
                               ? Image.network(
                                 film['image_url'],
@@ -123,44 +127,96 @@ class _AdminPageState extends State<AdminPage> {
                                 height: 90,
                                 fit: BoxFit.cover,
                               )
-                              : const Icon(Icons.image_not_supported),
-                      title: Text(
-                        film['tittle'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            film['description'] ?? '',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 4),
-                          Text('Durasi: ${film['duration']} menit'),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => EditFilmPage(film: film),
+                              : const Icon(Icons.image_not_supported, size: 60),
+                          const SizedBox(width: 12),
+
+                          // Info & Actions
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Title & Buttons (edit/delete)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        film['tittle'],
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: Colors.blue,
+                                          ),
+                                          onPressed: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (_) => EditFilmPage(
+                                                      film: film,
+                                                    ),
+                                              ),
+                                            );
+                                            fetchFilms();
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed:
+                                              () => _confirmDelete(film['id']),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              );
-                              fetchFilms();
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _confirmDelete(film['id']),
+                                // Description
+                                Container(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 315,
+                                  ), // Ubah sesuai kebutuhan
+                                  child: Text(
+                                    film['description'] ?? '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+
+                                // Durasi, Jadwal, Jam
+                                Text(
+                                  'Durasi: ${film['duration']} menit',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Jadwal: ${film['day']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Jam: ${film['time']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

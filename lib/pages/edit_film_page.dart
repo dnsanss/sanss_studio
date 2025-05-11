@@ -16,6 +16,9 @@ class _EditFilmPageState extends State<EditFilmPage> {
   late TextEditingController titleController;
   late TextEditingController descriptionController;
   late TextEditingController durationController;
+  late TextEditingController dayController;
+  late TextEditingController timeController;
+
   XFile? _image;
   Uint8List? _imageBytes;
 
@@ -30,6 +33,10 @@ class _EditFilmPageState extends State<EditFilmPage> {
     );
     durationController = TextEditingController(
       text: widget.film['duration']?.toString() ?? '',
+    );
+    dayController = TextEditingController(text: widget.film['day']);
+    timeController = TextEditingController(
+      text: widget.film['time']?.toString() ?? '',
     );
   }
 
@@ -67,6 +74,8 @@ class _EditFilmPageState extends State<EditFilmPage> {
             'description': descriptionController.text,
             'duration': int.tryParse(durationController.text),
             'image_url': imageUrl,
+            'day': dayController.text,
+            'time': timeController.text,
           })
           .eq('id', widget.film['id']);
 
@@ -121,6 +130,14 @@ class _EditFilmPageState extends State<EditFilmPage> {
               controller: durationController,
               decoration: const InputDecoration(labelText: 'Durasi (menit)'),
               keyboardType: TextInputType.number,
+            ),
+            TextFormField(
+              controller: dayController,
+              decoration: const InputDecoration(labelText: 'Jadwal Hari'),
+            ),
+            TextFormField(
+              controller: timeController,
+              decoration: const InputDecoration(labelText: 'Jam Tayang'),
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(

@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
         '/admin': (_) => const AdminPage(),
         '/user': (_) => const HomePage(),
       },
-      // home: HomePage(),
     );
   }
 }
