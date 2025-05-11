@@ -88,6 +88,12 @@ class _AdminPageState extends State<AdminPage> {
     }
   }
 
+  int _currentIndex = 0;
+  List<Widget> body = const [
+    Icon(Icons.movie_edit),
+    Icon(Icons.local_movies_outlined),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,6 +239,25 @@ class _AdminPageState extends State<AdminPage> {
           fetchFilms();
         },
         child: const Icon(Icons.add),
+      ),
+      // Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie_edit),
+            label: 'Movies',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_movies_outlined),
+            label: 'Bookings',
+          ),
+        ],
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }
