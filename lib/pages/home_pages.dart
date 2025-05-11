@@ -39,6 +39,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
+  int _currentIndex = 0;
+  List<Widget> body = const [
+    Icon(Icons.home),
+    Icon(Icons.local_movies),
+    Icon(Icons.person),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +55,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: logout, // Tidak perlu pakai context di parameter
-          ),
+          IconButton(icon: const Icon(Icons.logout), onPressed: logout),
         ],
       ),
       body:
@@ -70,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                         errorBuilder:
                             (context, _, __) => const Icon(Icons.image),
                       ),
-                      title: Text(movie['title']),
+                      title: Text(movie['tittle']),
                       subtitle: Text(
                         movie['description'],
                         maxLines: 2,
@@ -81,6 +85,22 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_movies),
+            label: 'Ticket Status',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
     );
   }
 }

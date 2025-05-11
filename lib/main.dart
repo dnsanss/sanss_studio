@@ -40,13 +40,14 @@ class _MyAppState extends State<MyApp> {
         textTheme: GoogleFonts.poppinsTextTheme(),
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       home: const LoginPage(), // halaman pertama saat app dibuka
       routes: {
         '/login': (_) => const LoginPage(),
         '/admin': (_) => const AdminPage(),
         '/user': (_) => const HomePage(),
       },
+      // home: HomePage(),
     );
   }
 }

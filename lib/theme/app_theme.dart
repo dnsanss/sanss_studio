@@ -36,10 +36,9 @@ abstract final class AppTheme {
       alignedDropdown: true,
       navigationRailUseIndicator: true,
     ),
-
     // Direct ThemeData properties.
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
-    useMaterial3: true,
+    useMaterial3: false,
   );
 }
