@@ -41,13 +41,13 @@ class _MyAppState extends State<MyApp> {
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
       ),
       themeMode: ThemeMode.light,
-      // home: const LoginPage(), // halaman pertama saat app dibuka
-      // routes: {
-      //   '/login': (_) => const LoginPage(),
-      //   '/admin': (_) => const AdminPage(),
-      //   '/user': (_) => const HomePage(),
-      // },
-      home: const HomePage(), // halaman pertama saat app dibuka
+      home: const LoginPage(), // halaman pertama saat app dibuka
+      routes: {
+        '/login': (_) => const LoginPage(),
+        '/admin': (_) => const AdminPage(),
+        '/user': (_) => const HomePage(),
+      },
+      //home: const HomePage(), // halaman pertama saat app dibuka
     );
   }
 }
