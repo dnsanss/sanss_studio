@@ -61,29 +61,109 @@ class _HomePageState extends State<HomePage> {
       body:
           movies.isEmpty
               ? const Center(child: CircularProgressIndicator())
-              : ListView.builder(
-                itemCount: movies.length,
-                itemBuilder: (context, index) {
-                  final movie = movies[index];
-                  return Card(
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      leading: Image.network(
-                        movie['image_url'],
-                        width: 50,
-                        errorBuilder:
-                            (context, _, __) => const Icon(Icons.image),
+              : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Now Showing',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 52, 222),
+                        ),
                       ),
-                      title: Text(movie['tittle']),
-                      subtitle: Text(
-                        movie['description'],
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () {},
                     ),
-                  );
-                },
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 260,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: movies.length,
+                        itemBuilder: (context, index) {
+                          final movie = movies[index];
+                          return Container(
+                            width: 170,
+                            margin: EdgeInsets.only(
+                              left: 16,
+                              right: index == movies.length - 1 ? 16 : 0,
+                            ),
+                            child: Card(
+                              color: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Poster
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(12),
+                                    ),
+                                    child: Image.network(
+                                      movie['image_url'],
+                                      height: 180,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, _, __) =>
+                                              const Icon(Icons.image),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  // Judul
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 13,
+                                    ),
+                                    child: Text(
+                                      movie['tittle'],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  // Jadwal
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 13,
+                                      vertical: 4,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_today,
+                                          color: Colors.white70,
+                                          size: 14,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          movie['day'] ?? '',
+                                          style: const TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
