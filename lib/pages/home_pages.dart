@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -60,6 +61,7 @@ class _HomePageState extends State<HomePage> {
               (movie) => movie['day'].toString().toLowerCase() == 'coming soon',
             )
             .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -164,6 +166,12 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(movie['price']);
+
     return Container(
       width: 170,
       margin: const EdgeInsets.only(left: 16),
@@ -208,7 +216,7 @@ class MovieCard extends StatelessWidget {
                 children: [
                   const SizedBox(width: 2),
                   Text(
-                    'Rp. ${movie['price']}',
+                    formattedPrice,
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

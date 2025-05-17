@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_film_page.dart';
 import 'edit_film_page.dart';
+import 'package:intl/intl.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -117,6 +118,11 @@ class _AdminPageState extends State<AdminPage> {
                 itemCount: filmList.length,
                 itemBuilder: (context, index) {
                   final film = filmList[index];
+                  final formattedPrice = NumberFormat.currency(
+                    locale: 'id',
+                    symbol: 'Rp ',
+                    decimalDigits: 0,
+                  ).format(film['price']);
                   return Card(
                     margin: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -224,7 +230,7 @@ class _AdminPageState extends State<AdminPage> {
                                   ),
                                 ),
                                 Text(
-                                  'Harga: Rp ${film['price']}',
+                                  'Harga: $formattedPrice',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blueAccent,
@@ -239,6 +245,7 @@ class _AdminPageState extends State<AdminPage> {
                   );
                 },
               ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(
