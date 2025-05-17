@@ -16,6 +16,7 @@ class _AddFilmPageState extends State<AddFilmPage> {
   final durationController = TextEditingController();
   final dayController = TextEditingController();
   final timeController = TextEditingController();
+  final priceController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
@@ -41,6 +42,7 @@ class _AddFilmPageState extends State<AddFilmPage> {
     final duration = durationController.text.trim();
     final day = dayController.text.trim();
     final time = timeController.text.trim();
+    final price = priceController.text.trim();
 
     if (title.isEmpty ||
         desc.isEmpty ||
@@ -75,6 +77,7 @@ class _AddFilmPageState extends State<AddFilmPage> {
         'duration': duration,
         'day': day,
         'time': time,
+        'price': price,
       });
 
       if (!mounted) return;
@@ -136,6 +139,11 @@ class _AddFilmPageState extends State<AddFilmPage> {
               TextFormField(
                 controller: timeController,
                 decoration: const InputDecoration(labelText: 'Jam Tayang'),
+              ),
+              TextFormField(
+                controller: priceController,
+                decoration: const InputDecoration(labelText: 'Harga Tiket'),
+                keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(

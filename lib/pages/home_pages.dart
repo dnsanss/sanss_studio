@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const SizedBox(height: 12),
                         SizedBox(
-                          height: 280,
+                          height: 300,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: nowShowing.length,
@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const SizedBox(height: 12),
                         SizedBox(
-                          height: 280,
+                          height: 300,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: comingSoon.length,
@@ -193,12 +193,28 @@ class MovieCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
                   const Icon(Icons.calendar_today, size: 14),
                   const SizedBox(width: 4),
                   Text(movie['day'], style: const TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              child: Row(
+                children: [
+                  const SizedBox(width: 2),
+                  Text(
+                    'Rp. ${movie['price']}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent,
+                    ),
+                  ),
                 ],
               ),
             ),

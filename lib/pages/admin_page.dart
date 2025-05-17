@@ -24,7 +24,9 @@ class _AdminPageState extends State<AdminPage> {
     try {
       final response = await Supabase.instance.client
           .from('movies')
-          .select('id, tittle, description, image_url, duration, day, time')
+          .select(
+            'id, tittle, description, image_url, duration, day, time, price',
+          )
           .order('tittle', ascending: true);
 
       if (!mounted) return;
@@ -219,6 +221,13 @@ class _AdminPageState extends State<AdminPage> {
                                   'Jam: ${film['time']}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  'Harga: Rp ${film['price']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blueAccent,
                                   ),
                                 ),
                               ],
