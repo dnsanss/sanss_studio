@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
+import 'detail_film_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -175,58 +176,74 @@ class MovieCard extends StatelessWidget {
     return Container(
       width: 170,
       margin: const EdgeInsets.only(left: 16),
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 3 / 4,
-              child: Image.network(
-                movie['image_url'],
-                fit: BoxFit.cover,
-                errorBuilder:
-                    (context, error, stackTrace) =>
-                        const Icon(Icons.broken_image),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => DetailFilmPage(film: movie)),
+          );
+        },
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 3 / 4,
+                child: Image.network(
+                  movie['image_url'],
+                  fit: BoxFit.cover,
+                  errorBuilder:
+                      (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              child: Text(
-                movie['tittle'],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                child: Text(
+                  movie['tittle'],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                children: [
-                  const Icon(Icons.calendar_today, size: 14),
-                  const SizedBox(width: 4),
-                  Text(movie['day'], style: const TextStyle(fontSize: 12)),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    const Icon(Icons.calendar_today, size: 14),
+                    const SizedBox(width: 4),
+                    Text(movie['day'], style: const TextStyle(fontSize: 12)),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              child: Row(
-                children: [
-                  const SizedBox(width: 2),
-                  Text(
-                    formattedPrice,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 2),
+                    Text(
+                      formattedPrice,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
         '/admin': (_) => const AdminPage(),
         '/user': (_) => const HomePage(),
       },
-      //home: const HomePage(), // halaman pertama saat app dibuka
+      //home: const HomePage(),
     );
   }
 }
