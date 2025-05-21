@@ -101,17 +101,36 @@ class DetailFilmPage extends StatelessWidget {
                 backgroundColor: Colors.blueAccent,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BookingPage(film: film),
-                  ),
-                );
+                if (film['day'].toLowerCase() == 'coming soon') {
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: const Text("Belum Tersedia"),
+                          content: const Text(
+                            "Film ini belum tersedia untuk dibooking.",
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingPage(film: film),
+                    ),
+                  );
+                }
               },
-
-              label: Text(
+              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              label: const Text(
                 "BOOKING NOW",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

@@ -18,13 +18,6 @@ class _BookingPageState extends State<BookingPage> {
 
   @override
   void initState() {
-    final film = widget.film;
-    fetchUser();
-    print('Film: $film');
-    print('Nama user: $userName');
-    print('Day: ${film['day']}');
-    print('Time: ${film['time']}');
-
     super.initState();
     harga = widget.film['price'] ?? 0;
     totalHarga = harga;
