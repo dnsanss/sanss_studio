@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sanss_studio/pages/booking_page.dart';
 
 class DetailFilmPage extends StatelessWidget {
+  final Map<String, dynamic> user;
   final Map<String, dynamic> film;
 
-  const DetailFilmPage({Key? key, required this.film}) : super(key: key);
+  const DetailFilmPage({Key? key, required this.film, required this.user})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +101,14 @@ class DetailFilmPage extends StatelessWidget {
                 backgroundColor: Colors.blueAccent,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/booking', arguments: film);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingPage(film: film),
+                  ),
+                );
               },
+
               label: Text(
                 "BOOKING NOW",
                 style: const TextStyle(

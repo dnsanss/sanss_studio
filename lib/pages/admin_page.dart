@@ -202,7 +202,7 @@ class _AdminPageState extends State<AdminPage> {
                                 Container(
                                   constraints: const BoxConstraints(
                                     maxWidth: 315,
-                                  ), // Ubah sesuai kebutuhan
+                                  ),
                                   child: Text(
                                     film['description'] ?? '',
                                     maxLines: 2,
@@ -258,7 +258,6 @@ class _AdminPageState extends State<AdminPage> {
         },
         child: const Icon(Icons.add),
       ),
-      // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

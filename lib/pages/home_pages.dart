@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
-import 'detail_film_page.dart';
+import 'package:sanss_studio/pages/detail_film_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchMovies(); // Aktifkan kembali
+    fetchMovies();
   }
 
   Future<void> fetchMovies() async {
@@ -47,6 +47,8 @@ class _HomePageState extends State<HomePage> {
     Icon(Icons.local_movies),
     Icon(Icons.person),
   ];
+
+  final currentUser = Supabase.instance.client.auth.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: nowShowing.length,
                             itemBuilder: (context, index) {
                               final movie = nowShowing[index];
-                              return MovieCard(movie: movie);
+                              return MovieCard(movie: movie, user: currentUser);
                             },
                           ),
                         ),
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: comingSoon.length,
                             itemBuilder: (context, index) {
                               final movie = comingSoon[index];
-                              return MovieCard(movie: movie);
+                              return MovieCard(movie: movie, user: currentUser);
                             },
                           ),
                         ),
@@ -163,7 +165,9 @@ class _HomePageState extends State<HomePage> {
 
 class MovieCard extends StatelessWidget {
   final dynamic movie;
-  const MovieCard({super.key, required this.movie});
+  final dynamic user;
+
+  const MovieCard({super.key, required this.movie, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -180,9 +184,12 @@ class MovieCard extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => DetailFilmPage(film: movie)),
+            MaterialPageRoute(
+              builder: (context) => DetailFilmPage(user: movie, film: movie),
+            ),
           );
         },
+
         child: Card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
