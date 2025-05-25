@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanss_studio/pages/ticket_history_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sanss_studio/pages/detail_film_page.dart';
@@ -11,6 +12,41 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final List<Widget> body = [
+    const MainNavigation(),
+    const TicketHistoryPage(),
+    Icon(Icons.person),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: body[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_movies),
+            label: 'Ticket History',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
+      ),
+    );
+  }
+}
+
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+
+  @override
+  State<MainNavigation> createState() => _MainNavigation();
+}
+
+class _MainNavigation extends State<MainNavigation> {
   List<dynamic> movies = [];
   String? userName;
 
@@ -40,13 +76,6 @@ class _HomePageState extends State<HomePage> {
     if (!mounted) return;
     Navigator.of(context).pushReplacementNamed('/login');
   }
-
-  int _currentIndex = 0;
-  List<Widget> body = const [
-    Icon(Icons.home),
-    Icon(Icons.local_movies),
-    Icon(Icons.person),
-  ];
 
   final currentUser = Supabase.instance.client.auth.currentUser;
 
@@ -142,23 +171,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_movies),
-            label: 'Ticket Status',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
     );
   }
 }
