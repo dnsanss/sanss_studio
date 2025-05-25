@@ -1,71 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:sanss_studio/pages/home_pages.dart';
+import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 
-class BookingSuksesPage extends StatefulWidget {
-  final Map<String, dynamic> booking;
-
-  const BookingSuksesPage({super.key, required this.booking});
+class DetailTicketPage extends StatefulWidget {
+  final Map<String, dynamic> detailTicket;
+  const DetailTicketPage({super.key, required this.detailTicket});
 
   @override
-  State<BookingSuksesPage> createState() => _BookingSuksesPageState();
+  State<DetailTicketPage> createState() => _DetailTicketPageState();
 }
 
-class _BookingSuksesPageState extends State<BookingSuksesPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showSuccessDialog(context);
-    });
-  }
-
-  void showSuccessDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blue[50],
-                  radius: 36,
-                  child: Icon(Icons.check_circle, color: Colors.blue, size: 60),
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  "Terima kasih telah memesan tiket di aplikasi kami. Silakan datang tepat waktu dan nikmati filmnya!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            actions: [
-              Align(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("OK", style: TextStyle(fontSize: 16)),
-                ),
-              ),
-            ],
-          ),
-    );
-  }
-
+class _DetailTicketPageState extends State<DetailTicketPage> {
   @override
   Widget build(BuildContext context) {
-    final schedules = widget.booking['schedules']; // relasi ke tabel movies
-    final users = widget.booking['user_id']; // relasi ke tabel users
+    final ticket = widget.detailTicket;
+    final schedules = ticket['schedules'] as Map<String, dynamic>;
+    final users = ticket['user_id'] as Map<String, dynamic>;
+
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(schedules['price'] * ticket['jumlah_tiket']);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Booking Telah Berhasil')),
+      appBar: AppBar(title: const Text('Detail Tiket')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -86,7 +47,6 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                         child: const Icon(Icons.image_not_supported, size: 48),
                       ),
             ),
-
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +56,7 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "${users?['nama'] ?? '-'}",
+                  "${users['nama'] ?? '-'}",
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -110,7 +70,7 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SelectableText(
-                  "${widget.booking['id']}",
+                  "${widget.detailTicket['id']}",
                   style: const TextStyle(fontSize: 13.5),
                 ),
               ],
@@ -166,7 +126,7 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "${widget.booking['jumlah_tiket']}",
+                  "${widget.detailTicket['jumlah_tiket']}",
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -175,45 +135,15 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Total Harga :",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Rp ${widget.booking['price']}",
+                  formattedPrice,
                   style: const TextStyle(fontSize: 16, color: Colors.green),
                 ),
               ],
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                backgroundColor: Colors.blueAccent,
-              ),
-              child: const Text(
-                "Kembali ke Halaman Utama",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed:
-                  () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  ),
             ),
           ],
         ),

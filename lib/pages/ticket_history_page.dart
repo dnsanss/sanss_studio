@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanss_studio/pages/detail_ticket_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -71,68 +72,83 @@ class _TicketHistoryPageState extends State<TicketHistoryPage> {
                     symbol: 'Rp ',
                     decimalDigits: 0,
                   ).format(movie['price']);
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Poster
-                          schedules['image_url'] != null
-                              ? Image.network(
-                                schedules['image_url'],
-                                width: 60,
-                                height: 90,
-                                fit: BoxFit.cover,
-                              )
-                              : const Icon(Icons.image_not_supported, size: 60),
-                          const SizedBox(width: 12),
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  DetailTicketPage(detailTicket: movie),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Poster
+                            schedules['image_url'] != null
+                                ? Image.network(
+                                  schedules['image_url'],
+                                  width: 60,
+                                  height: 90,
+                                  fit: BoxFit.cover,
+                                )
+                                : const Icon(
+                                  Icons.image_not_supported,
+                                  size: 60,
+                                ),
+                            const SizedBox(width: 12),
 
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        schedules['tittle'] ??
-                                            'Tidak ada judul',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          schedules['tittle'] ??
+                                              'Tidak ada judul',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Atas Nama: ${movie['user_id']?['nama'] ?? '-'}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  'Jadwal Tayang: ${schedules['day'] ?? '-'}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  'Jam Tayang: ${schedules['time'] ?? '-'}',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  'Harga: $formattedPrice',
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Atas Nama: ${movie['user_id']?['nama'] ?? '-'}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                  Text(
+                                    'Jadwal Tayang: ${schedules['day'] ?? '-'}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                  Text(
+                                    'Jam Tayang: ${schedules['time'] ?? '-'}',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                  Text(
+                                    'Harga: $formattedPrice',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
