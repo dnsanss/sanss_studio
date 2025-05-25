@@ -45,23 +45,90 @@ class _AdminListTicketPageState extends State<AdminListTicketPage> {
     setState(() {
       isLoading = true;
       ticketList.clear();
+      searchQuery = '';
+      searchController.clear();
     });
     fetchTickets();
   }
 
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
+    final filteredList =
+        searchQuery.isEmpty
+            ? ticketList
+            : ticketList.where((movie) {
+              final schedules = movie['schedules'] ?? {};
+              final user = movie['user_id'] ?? {};
+              final values =
+                  [
+                    user['nama'] ?? '',
+                    schedules['tittle'] ?? '',
+                    schedules['day'] ?? '',
+                    schedules['time'] ?? '',
+                    movie['price']?.toString() ?? '',
+                  ].join(' ').toLowerCase();
+              return values.contains(searchQuery);
+            }).toList();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Ticket Bookings')),
+      appBar: AppBar(
+        title: const Text('Ticket Bookings'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () async {
+              final query = await showDialog<String>(
+                context: context,
+                builder:
+                    (context) => AlertDialog(
+                      title: const Text('Cari Tiket'),
+                      content: TextField(
+                        controller: searchController,
+                        decoration: const InputDecoration(
+                          hintText: 'Cari nama, judul, jadwal...',
+                        ),
+                        autofocus: true,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, null),
+                          child: const Text('Batal'),
+                        ),
+                        TextButton(
+                          onPressed:
+                              () =>
+                                  Navigator.pop(context, searchController.text),
+                          child: const Text('Cari'),
+                        ),
+                      ],
+                    ),
+              );
+              if (query != null) {
+                setState(() {
+                  searchQuery = query.trim().toLowerCase();
+                });
+              }
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: refreshTickets,
+          ),
+        ],
+      ),
+
       body:
           isLoading
               ? const Center(child: CircularProgressIndicator())
               : ticketList.isEmpty
               ? const Center(child: Text('Tidak ada tiket yang ditemukan.'))
               : ListView.builder(
-                itemCount: ticketList.length,
+                itemCount: filteredList.length,
                 itemBuilder: (context, index) {
-                  final movie = ticketList[index];
+                  final movie = filteredList[index];
                   final schedules = movie['schedules'] ?? {};
                   final formattedPrice = NumberFormat.currency(
                     locale: 'id',
