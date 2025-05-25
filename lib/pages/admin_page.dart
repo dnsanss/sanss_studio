@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:sanss_studio/pages/admin_list_ticket.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_film_page.dart';
 import 'edit_film_page.dart';
@@ -14,6 +15,41 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
+  int _currentIndex = 0;
+  final List<Widget> body = [
+    const AdminNavigation(),
+    const AdminListTicketPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: body[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.movie_edit), label: 'Films'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_movies_outlined),
+            label: 'Ticket Bookings',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AdminNavigation extends StatefulWidget {
+  const AdminNavigation({super.key});
+
+  @override
+  State<AdminNavigation> createState() => _AdminNavigationState();
+}
+
+class _AdminNavigationState extends State<AdminNavigation> {
+  List<dynamic> movies = [];
+  String? userName;
   List<Map<String, dynamic>> filmList = [];
   bool isLoading = true;
 
@@ -92,12 +128,6 @@ class _AdminPageState extends State<AdminPage> {
       ).showSnackBar(SnackBar(content: Text('Gagal menghapus film: $e')));
     }
   }
-
-  int _currentIndex = 0;
-  List<Widget> body = const [
-    Icon(Icons.movie_edit),
-    Icon(Icons.local_movies_outlined),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -257,24 +287,6 @@ class _AdminPageState extends State<AdminPage> {
           fetchFilms();
         },
         child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.movie_edit),
-            label: 'Movies',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_movies_outlined),
-            label: 'Bookings',
-          ),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
       ),
     );
   }
