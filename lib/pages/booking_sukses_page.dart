@@ -209,11 +209,13 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                 "Kembali ke Halaman Utama",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed:
-                  () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  ),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
             ),
           ],
         ),
