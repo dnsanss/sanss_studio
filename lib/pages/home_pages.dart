@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sanss_studio/pages/ticket_history_page.dart';
+import 'package:sanss_studio/pages/user_profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:sanss_studio/pages/detail_film_page.dart';
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> body = [
     const MainNavigation(),
     const TicketHistoryPage(),
-    Icon(Icons.person),
+    const UserProfilePage(),
   ];
 
   @override
@@ -71,12 +72,6 @@ class _MainNavigation extends State<MainNavigation> {
     }
   }
 
-  Future<void> logout() async {
-    await Supabase.instance.client.auth.signOut();
-    if (!mounted) return;
-    Navigator.of(context).pushReplacementNamed('/login');
-  }
-
   final currentUser = Supabase.instance.client.auth.currentUser;
 
   @override
@@ -100,9 +95,6 @@ class _MainNavigation extends State<MainNavigation> {
           'SANSS STUDIO',
           style: TextStyle(fontWeight: FontWeight.w800),
         ),
-        actions: [
-          IconButton(icon: const Icon(Icons.logout), onPressed: logout),
-        ],
       ),
       body:
           movies.isEmpty
