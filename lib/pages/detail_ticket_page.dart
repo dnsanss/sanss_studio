@@ -20,7 +20,7 @@ class _DetailTicketPageState extends State<DetailTicketPage> {
       locale: 'id',
       symbol: 'Rp ',
       decimalDigits: 0,
-    ).format(schedules['price'] * ticket['jumlah_tiket']);
+    ).format(ticket['price']);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Detail Tiket')),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sanss_studio/pages/booking_sukses_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -109,6 +110,12 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     final film = widget.film;
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(totalHarga);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Booking Tiket')),
       body: Padding(
@@ -223,7 +230,7 @@ class _BookingPageState extends State<BookingPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'Rp $totalHarga',
+                  formattedPrice,
                   style: const TextStyle(fontSize: 16, color: Colors.green),
                 ),
               ],

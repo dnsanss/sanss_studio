@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sanss_studio/pages/home_pages.dart';
 
 class BookingSuksesPage extends StatefulWidget {
@@ -59,8 +60,14 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final booking = widget.booking;
     final schedules = widget.booking['schedules']; // relasi ke tabel movies
     final users = widget.booking['user_id']; // relasi ke tabel users
+    final formattedPrice = NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(booking['price']);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Booking Telah Berhasil')),
@@ -180,7 +187,7 @@ class _BookingSuksesPageState extends State<BookingSuksesPage> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Rp ${widget.booking['price']}",
+                  formattedPrice,
                   style: const TextStyle(fontSize: 16, color: Colors.green),
                 ),
               ],
