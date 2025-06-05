@@ -39,10 +39,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   void logout() async {
     await Supabase.instance.client.auth.signOut();
-
-    // Navigasi ke halaman login dan hapus semua riwayat
-    Navigator.pushAndRemoveUntil(
-      context,
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const LoginPage()),
       (route) => false,
     );

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:sanss_studio/auth/login_page.dart';
 import 'package:sanss_studio/pages/admin_list_ticket.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_film_page.dart';
@@ -84,7 +85,10 @@ class _AdminNavigationState extends State<AdminNavigation> {
 
   void logout(BuildContext context) async {
     await Supabase.instance.client.auth.signOut();
-    Navigator.of(context).pushReplacementNamed('/login');
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void _confirmDelete(String id) {
